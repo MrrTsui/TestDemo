@@ -1,0 +1,26 @@
+package com.taotao.dao;
+
+import java.util.Map;
+
+public interface IproductDao extends IbaseDao<IproductDao> {
+
+	/**
+	 * 
+	 * 
+	 * <p>
+	 * Title: saveCurrentObjectDesc
+	 * </p>
+	 * 
+	 * <p>
+	 * Description: 保存当前对象
+	 * </p>
+	 * 
+	 * @param paraMap
+	 * @return
+	 */
+	int saveCurrentObjectDesc(Map<String, Object> paraMap);
+	
+	void selectProductDescByProductId(Map<String, Object> paraMap);
+
+	
+}

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.taotao.dao.IproductMenuDao">
+
+	<resultMap id="ProductMenuMap" type="com.taotao.pojo.ProductMenuVO">
+		<id column="id" property="menuId" jdbcType="BIGINT" />
+		<id column="parent_id" property="parentMenuId" jdbcType="BIGINT" />
+		<result column="name" property="menuName" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
+		<result column="is_parent" property="isParent" jdbcType="TINYINT" />
+		<result column="created" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="updated" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="param_data" property="paramGroups" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- 菜单查询sql，每次传入下一个parentId -->
+	<select id="selectByExample" parameterType="map" resultMap="ProductMenuMap">
+		<!-- 利用主键索引提高效率，适用百万级数据 另一种写法 ：SELECT * FROM tb_item_cat a JOIN (select 
+			id from tb_item_cat limit 0, 20) b ON a.ID = b.id -->
+		select * ,(select count(*) from tb_item_cat ) as totalNum from
+		tb_item_cat
+		where 1= 1
+		<if test="_parameter != null">
+			<if test="_parameter.containsKey('startId')">
+				and id >=(select id from tb_item_cat limit #{ startId},
+				1)
+				limit #{rows}
+			</if>
+			<if test="_parameter.containsKey('parentId')">
+				and parent_id = #{parentId,jdbcType=BIGINT}
+			</if>
+		</if>
+	</select>
+	
+	<select id="getMenuParamGroups" parameterType="map" resultMap="ProductMenuMap">
+		select item_cat_id as id , param_data from tb_item_param where item_cat_id 
+	</select>
+</mapper>

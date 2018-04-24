@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.taotao.dao.IproductDao">
+
+	<resultMap id="ProductMap" type="com.taotao.pojo.ProductVO">
+		<id column="id" property="productId" jdbcType="BIGINT" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="sell_point" property="sellPoint" jdbcType="VARCHAR" />
+		<result column="price" property="price" jdbcType="BIGINT" />
+		<result column="num" property="num" jdbcType="BIGINT" />
+		<result column="barcode" property="barcode" jdbcType="VARCHAR" />
+		<result column="image" property="image" jdbcType="VARCHAR" />
+		<result column="cid" property="cid" jdbcType="BIGINT" />
+		<result column="status" property="status" jdbcType="TINYINT" />
+		<result column="created" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="updated" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	
+	<select id="selectByExample" parameterType="map" resultMap="ProductMap">
+
+		<!-- 利用主键索引提高效率，适用百万级数据 另一种写法 ：SELECT * FROM tb_item a JOIN (select id 
+			from tb_item limit 0, 20) b ON a.ID = b.id -->
+		select * ,(select count(*) from tb_item ) as totalNum from tb_item
+		where 1= 1
+		<if test="_parameter != null">
+			<include refid="selectByPageVO"/>
+			<include refid="selectByProductVO"/>
+		</if>
+	</select>
+	
+	<sql id="selectByProductVO">
+		<if test="_parameter.containsKey('productId')">and id = #{productId,jdbcType=BIGINT}</if>
+		<if test="_parameter.containsKey('sellPoint')">and sell_point = #{productId,jdbcType=VARCHAR}</if>
+		<if test="_parameter.containsKey('price')">and price = #{productId,jdbcType=BIGINT}</if>
+		<if test="_parameter.containsKey('num')">and num = #{productId,jdbcType=BIGINT}</if>
+		<if test="_parameter.containsKey('barcode')">and barcode = #{productId,jdbcType=VARCHAR}</if>
+		<if test="_parameter.containsKey('cid')">and cid = #{productId,jdbcType=BIGINT}</if>
+		<if test="_parameter.containsKey('status')">and status = #{productId,jdbcType=TINYINT}</if>
+	</sql>
+	
+	<sql id="selectByPageVO">
+			<if test="_parameter.containsKey('startId')">
+				and id >=(select id from tb_item limit #{ startId}, 1)
+				limit #{rows}
+			</if>
+	</sql>
+	
+	<insert id="saveCurrentObject" parameterType="map" useGeneratedKeys="true"  keyProperty="productId">
+		INSERT INTO tb_item
+		(
+		title,
+		sell_point,
+		price,
+		num,
+		barcode,
+		image,
+		cid,
+		status,
+		created,
+		updated
+		)
+		VALUES
+		(
+		#{title, jdbcType=VARCHAR },
+		#{sellPoint, jdbcType=VARCHAR},
+		#{price, jdbcType=BIGINT},
+		#{num, jdbcType=BIGINT},
+		#{barcode,jdbcType=VARCHAR},
+		#{image, jdbcType=VARCHAR},
+		#{cid,jdbcType=BIGINT},
+		#{status, jdbcType=TINYINT},
+		SYSDATE(),
+		SYSDATE()
+		)
+	</insert>
+	
+	<insert id="saveCurrentObjectDesc" parameterType="map" >
+	insert into tb_item_desc (item_id , item_desc,created , updated)
+	values (#{productId,jdbcType=BIGINT},#{desc,jdbcType=VARCHAR},SYSDATE(),SYSDATE())
+	</insert>
+	
+	<select id="selectProductDescByProductId" parameterType="map" resultType="com.taotao.pojo.ProductVO">
+		select
+			item_id AS productId,
+			item_desc AS 'desc',
+			created AS createTime,
+			updated AS updateTime 
+		from tb_item_desc where 1 = 1 
+		<if test="_parameter != null">
+			<if test="_parameter.containsKey('productId')">
+				and	item_id = #{productId,jdbcType=BIGINT}
+			</if>
+		</if>
+	</select>
+	
+	
+	<!-- 
+		根据productId修改对象，剩下工作，需要进行非空判断
+	 -->
+	<update id="updateCurrentObject" >
+		update tb_item 
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="_parameter.containsKey(title)"> <if test="title != null ">title = #{title,jdbcType=VARCHAR},</if></if>
+			<if test="_parameter.containsKey('sellPoint')"><if test="sellPoint != null">sell_point = #{sellPoint,jdbcType=VARCHAR},</if></if>
+			<if test="_parameter.containsKey('price')"><if test="price != null">price = #{price,jdbcType=BIGINT},</if></if>
+			<if test="_parameter.containsKey('num')">num = #{num,jdbcType=BIGINT},</if>
+			<if test="_parameter.containsKey('barcode')">barcode = #{barcode,jdbcType=VARCHAR},</if>
+			<if test="_parameter.containsKey('cid')"><if test="cid != null ">cid = #{cid,jdbcType=BIGINT},</if></if>
+			<if test="_parameter.containsKey('status')"><if test="status != null" >status = #{status,jdbcType=TINYINT},</if></if>
+			updated = SYSDATE(),
+		</trim>
+		where id = #{productId,jdbcType=BIGINT}
+	</update>
+</mapper>
