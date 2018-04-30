@@ -1,19 +1,18 @@
 package com.taotao.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-
 import com.taotao.dao.IproductDao;
 import com.taotao.dao.IproductMenuDao;
 import com.taotao.pojo.ProductMenuVO;
 import com.taotao.pojo.ProductVO;
 import com.taotao.service.IproductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProductServiceImpl implements IproductService {
