@@ -198,4 +198,8 @@ public class ProductServiceImpl implements IproductService {
 		productMenuDao.saveCurrentObject(paraMap);
 	}
 
+
+	public void testMethod(){
+
+	}
 }

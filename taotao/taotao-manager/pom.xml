@@ -22,6 +22,8 @@
 		<module>taotao-manager-mapper</module>
 		<module>taotao-manager-service</module>
 		<module>taotao-manager-web</module>
+		<module>taotao-rest</module>
+		<module>taotao-portal</module>
 	</modules>
 	
 	<build>
