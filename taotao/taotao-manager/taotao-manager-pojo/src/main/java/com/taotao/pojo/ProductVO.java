@@ -4,18 +4,18 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 
- * 
+ *
+ *
  * <p>
  * Title: ProductVO
  * </p>
- * 
+ *
  * <p>
  * Description: 商品基本信息类
  * </p>
- * 
+ *
  * @author shenlan
- * 
+ *
  * @date 2018年4月5日
  */
 public class ProductVO implements Serializable {

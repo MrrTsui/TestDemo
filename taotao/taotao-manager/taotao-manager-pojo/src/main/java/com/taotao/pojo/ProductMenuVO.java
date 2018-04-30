@@ -4,21 +4,21 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 
- * 
+ *
+ *
  * <p>
  * Title: ProductMenuVO
  * </p>
- * 
+ *
  * <p>
  * Description:商品类目VO
  * </p>
- * 
- * 
+ *
+ *
  * 使用单例设计，保证效率，不用重复查询SQL
- * 
+ *
  * @author wansiliang
- * 
+ *
  * @date 2018年4月6日
  */
 public class ProductMenuVO implements Serializable {
@@ -78,7 +78,7 @@ public class ProductMenuVO implements Serializable {
 	private Date createTime;
 	/**
 	 * datetime 创建时间
-	 * 
+	 *
 	 */
 	private Date updateTime;
 
@@ -86,12 +86,12 @@ public class ProductMenuVO implements Serializable {
 	 * 商品总数
 	 */
 	private Integer totalNum;
-	
+
 	/**
 	 * 类别下的分组
 	 */
 	private String paramGroups;
-	
+
 	public Long getMenuId() {
 		return menuId;
 	}
@@ -171,5 +171,5 @@ public class ProductMenuVO implements Serializable {
 	public void setParamGroups(String paramGroups) {
 		this.paramGroups = paramGroups;
 	}
-	
+
 }

@@ -65,7 +65,6 @@ public class ProductServiceImpl implements IproductService {
 	 */
 	@Override
 	public List<Map<String, Object>> getProductParaMenus(Map<String, Object> paraMap) {
-		// TODO Auto-generated method stub
 		final List<Map<String, Object>> returnList = new ArrayList<Map<String, Object>>();
 
 		final List<ProductMenuVO> productMenuVOs = new ArrayList<ProductMenuVO>(30);
@@ -126,7 +125,6 @@ public class ProductServiceImpl implements IproductService {
 					returnList.wait();
 				}
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -165,18 +163,17 @@ public class ProductServiceImpl implements IproductService {
 		return num > 0 ? true : false;
 	}
 
-	
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * <p>
 	 * Title: instockOrReshelfProductByIds
 	 * </p>
-	 * 
+	 *
 	 * <p>
-	 * Description:根据 传入的  ids 来修改产品上下架的status值， 上架为1 下架为0  删除 3 
+	 * Description:根据 传入的 ids 来修改产品上下架的status值， 上架为1 下架为0 删除 3
 	 * </p>
-	 * 
+	 *
 	 * @param paraMap
 	 * @return
 	 */
@@ -184,6 +181,22 @@ public class ProductServiceImpl implements IproductService {
 	public boolean instockOrReshelfProductByIds(Map<String, Object> paraMap) {
 		int num = productDao.instockOrReshelfProductByIds(paraMap);
 		return num > 0 ? true : false;
+	}
+
+	/**
+	 *
+	 */
+	@Override
+	public List<ProductMenuVO> getMenuParamGroupsByMenId(Map<String, Object> paraMap) {
+		return productMenuDao.getMenuParamGroupsByMenId(paraMap);
+	}
+
+	/**
+	 *
+	 */
+	@Override
+	public void insertNewProductParam(Map<String, Object> paraMap) {
+		productMenuDao.saveCurrentObject(paraMap);
 	}
 
 }

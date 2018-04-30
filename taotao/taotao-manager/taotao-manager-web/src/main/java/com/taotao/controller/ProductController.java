@@ -1,5 +1,16 @@
 package com.taotao.controller;
 
+import com.taotao.pojo.ProductMenuVO;
+import com.taotao.pojo.ProductVO;
+import com.taotao.service.IproductService;
+import com.taotao.utils.BeanToMap;
+import com.taotao.utils.ImageUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -7,53 +18,37 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.taotao.pojo.ProductMenuVO;
-import com.taotao.pojo.ProductVO;
-import com.taotao.service.IproductService;
-import com.taotao.utils.BeanToMap;
-import com.taotao.utils.ImageUtils;
-
 /**
- * 
- * 
+ *
+ *
  * <p>
  * Title: ProductController
  * </p>
- * 
+ *
  * <p>
  * Description: 商品的控制器
  * </p>
- * 
+ *
  * @author wansiliang
- * 
+ *
  * @date 2018年4月5日
  */
 @Controller
 @RequestMapping("/product")
 public class ProductController {
 	/**
-	 * 
+	 *
 	 * 私有内部类，只能再当前方法内使用
 	 * <p>
 	 * Title: TreeNode
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * Description:
 	 * </p>
-	 * 
+	 *
 	 * @author wansiliang
-	 * 
+	 *
 	 * @date 2018年4月6日
 	 */
 	private class TreeNode implements Serializable {
@@ -99,16 +94,16 @@ public class ProductController {
 	private IproductService productService;
 
 	/**
-	 * 
+	 *
 	 * 分页查询商品
 	 * <p>
 	 * Title: getProducts
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * Description:
 	 * </p>
-	 * 
+	 *
 	 * @param currentPage
 	 * @param rows
 	 * @return {total:”2”,rows:[{“id”:”1”,”name”,”张三”},{“id”:”2”,”name”,”李四”}]}
@@ -117,7 +112,7 @@ public class ProductController {
 	@RequestMapping("/list")
 	@ResponseBody
 	public Map<String, Object> getProducts(@RequestParam("page") Integer currentPage,
-			@RequestParam("rows") Integer rows) {
+										   @RequestParam("rows") Integer rows) {
 		Map<String, Object> pageVO = calculatePageVO(currentPage, rows);
 		List<ProductVO> products = productService.getProduct(pageVO);
 		// 如果products 为空返回null
@@ -152,22 +147,22 @@ public class ProductController {
 	 * "field:'created',width:130,align:'center',formatter:TAOTAO.formatDateTime">创建日期</th>
 	 * <th data-options=
 	 * "field:'updated',width:130,align:'center',formatter:TAOTAO.formatDateTime">更新日期</th>
-	 * 
+	 *
 	 * <p>
 	 * Title: getProductParaMenus
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * Description:
 	 * </p>
-	 * 
+	 *
 	 * @param currentPage
 	 * @param rows
 	 */
 	@RequestMapping(value = "/param/list", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> getProductParaMenus(@RequestParam("page") Integer currentPage,
-			@RequestParam("rows") Integer rows) {
+												   @RequestParam("rows") Integer rows) {
 		// 封装list<map>返回给前端
 		// List<Map<String, Object>> itemParamListViewVos = new ArrayList<Map<String,
 		// Object>>(30);
@@ -228,16 +223,16 @@ public class ProductController {
 	}
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * <p>
 	 * Title: saveNewProduct
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * Description:创建新的产品 需要同时写入两张表。在service层实现，为了统一管理事物
 	 * </p>
-	 * 
+	 *
 	 * @param productVO
 	 * @param desc
 	 * @return
@@ -265,16 +260,16 @@ public class ProductController {
 	}
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * <p>
 	 * Title: imageUpload
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * Description:多线程上传图片
 	 * </p>
-	 * 
+	 *
 	 * @param uploadFile
 	 * @return
 	 */
@@ -300,16 +295,16 @@ public class ProductController {
 	}
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * <p>
 	 * Title: getDescByProductId
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * Description:通过商品ID查询商品的描述
 	 * </p>
-	 * 
+	 *
 	 * @param productId
 	 * @return
 	 */
@@ -326,16 +321,16 @@ public class ProductController {
 	}
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * <p>
 	 * Title: getProductInfoByProductId
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * Description:根据商品ID查询商品基本信息
 	 * </p>
-	 * 
+	 *
 	 * @param productId
 	 * @return
 	 */
@@ -352,80 +347,158 @@ public class ProductController {
 	}
 
 	/**
-	 * 
-	
-	 * <p>Title: updateProductByProductId</p>  
-	
-	 * <p>Description: 根据当前productId来修改产品配置信息</p>  
-	
+	 *
+	 *
+	 * <p>
+	 * Title: updateProductByProductId
+	 * </p>
+	 *
+	 * <p>
+	 * Description: 根据当前productId来修改产品配置信息
+	 * </p>
+	 *
 	 * @param productVO
 	 * @return
 	 */
-	@RequestMapping(value = "/update",method=RequestMethod.POST)
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> updateProductByProductId(ProductVO productVO) {
 		Map<String, Object> paraMap = null;
 		try {
-			productVO.getStatus(); 
+			productVO.getStatus();
 			paraMap = BeanToMap.beanToMap(productVO);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		boolean isUpdateOK = productService.updateProductByProductId(paraMap);
-		if(isUpdateOK) {
+		if (isUpdateOK) {
 			paraMap.clear();
 			paraMap.put("status", 200);
 		}
 		return paraMap;
 	}
 
-	
 	/**
-	 * 
-	
-	 * <p>Title: instockProductById</p>  
-	
-	 * <p>Description: 下架产品</p>  
-	
+	 *
+	 *
+	 * <p>
+	 * Title: instockProductById
+	 * </p>
+	 *
+	 * <p>
+	 * Description: 下架产品
+	 * </p>
+	 *
 	 * @param productVO
 	 * @return
 	 */
-	@RequestMapping(value="/instock",method=RequestMethod.POST)
+	@RequestMapping(value = "/instock", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> instockProductById(@RequestParam(value="ids")String ids){
+	public Map<String, Object> instockProductById(@RequestParam(value = "ids") String ids) {
 		Map<String, Object> paraMap = new HashMap<>();
 		paraMap.put("status", '2');
 		paraMap.put("ids", ids.split(","));
 		boolean isUpdateOK = productService.instockOrReshelfProductByIds(paraMap);
-		if(isUpdateOK) {
+		if (isUpdateOK) {
 			paraMap.clear();
 			paraMap.put("status", 200);
 		}
 		return paraMap;
-	} 
+	}
+
 	/**
-	 * 
-	
-	 * <p>Title: instockProductById</p>  
-	
-	 * <p>Description: 上架产品</p>  
-	
+	 *
+	 *
+	 * <p>
+	 * Title: instockProductById
+	 * </p>
+	 *
+	 * <p>
+	 * Description: 上架产品
+	 * </p>
+	 *
 	 * @param productVO
 	 * @return
 	 */
-	@RequestMapping(value="/reshelf",method=RequestMethod.POST)
+	@RequestMapping(value = "/reshelf", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> reshelfProductById(@RequestParam(value="ids")String ids){
+	public Map<String, Object> reshelfProductById(@RequestParam(value = "ids") String ids) {
 		Map<String, Object> paraMap = new HashMap<>();
 		paraMap.put("status", '1');
 		paraMap.put("ids", ids.split(","));
 		boolean isUpdateOK = productService.instockOrReshelfProductByIds(paraMap);
-		if(isUpdateOK) {
+		if (isUpdateOK) {
 			paraMap.clear();
 			paraMap.put("status", 200);
 		}
 		return paraMap;
-	} 
-	
+	}
+
+	/**
+	 *
+	 *
+	 * <p>
+	 * Title: insertNewProductParam
+	 * </p>
+	 *
+	 * <p>
+	 * Description: 根据menId 新增一个参数模板
+	 * </p>
+	 * var url = "/product/param/save/"+$("#itemParamAddTable [name=cid]").val();
+	 * $.post(url,{"paramData":JSON.stringify(params)},function(data){
+	 * if(data.status == 200){
+	 *
+	 * @param paramData
+	 * @return
+	 */
+	@RequestMapping(value = "/param/save/{menuId}", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> insertNewProductParam(@PathVariable("menuId") String menuId,
+													 @RequestParam("paramData") String paramGroups) {
+		Map<String, Object> paraMap = new HashMap<>();
+		paraMap.put("menuId", menuId);
+		paraMap.put("paramGroups", paramGroups);
+		try {
+			productService.insertNewProductParam(paraMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return paraMap;
+		}
+		paraMap.put("status", 200);
+		return paraMap;
+	}
+
+	/**
+	 *
+	 *
+	 * <p>
+	 * Title: hasParamByMenuId
+	 * </p>
+	 *
+	 * <p>
+	 * Description: // 判断选择的类目是否已经添加过规格
+	 * </p>
+	 *
+	 * $.getJSON("/product/param/query/menuId/" + node.id,function(data){
+	 * if(data.status == 200 && data.data){
+	 *
+	 * @param menuId
+	 * @return
+	 */
+	@RequestMapping(value = "param/query/menuId/{menuId}", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> hasParamByMenuId(@PathVariable("menuId") String menuId) {
+		Map<String, Object> paraMap = new HashMap<>();
+		paraMap.put("menuId", menuId);
+		List<ProductMenuVO> productParaMenus = productService.getMenuParamGroupsByMenId(paraMap);
+		paraMap.clear();
+		if (!CollectionUtils.isEmpty(productParaMenus)) {
+			paraMap.put("status", 200);
+			paraMap.put("data", productParaMenus);
+			return paraMap;
+		}
+		paraMap.put("status", 500);
+		return paraMap;
+	}
+
 }
