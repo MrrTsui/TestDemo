@@ -1,9 +1,9 @@
 package com.taotao.dao;
 
+import com.taotao.pojo.ProductMenuVO;
+
 import java.util.List;
 import java.util.Map;
-
-import com.taotao.pojo.ProductMenuVO;
 
 /**
  *
@@ -20,7 +20,7 @@ import com.taotao.pojo.ProductMenuVO;
  *
  * @date 2018年4月6日
  */
-public interface IproductMenuDao extends IbaseDao<IproductMenuDao> {
+public interface IproductMenuDao extends IbaseDao<ProductMenuVO> {
 
 	/**
 	 *
