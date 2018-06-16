@@ -1,11 +1,15 @@
 package com.taotao.dao;
 
+import com.taotao.pojo.ProductVO;
+
 import java.util.List;
 import java.util.Map;
 
-import com.taotao.pojo.ProductVO;
+/**
+ * @author 13174
+ */
+public interface IproductDao extends IbaseDao<ProductVO> {
 
-public interface IproductDao extends IbaseDao<IproductDao> {
 
 	/**
 	 *

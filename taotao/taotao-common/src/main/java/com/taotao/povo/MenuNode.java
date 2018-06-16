@@ -13,6 +13,7 @@ import java.util.List;
  * u代表 连接
  * n代表支付
  * i代表子类（由于子类是多类型，所以用泛型方法）
+ * @author 13174
  */
 public class MenuNode implements Serializable {
 

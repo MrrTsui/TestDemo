@@ -1,10 +1,11 @@
 package com.taotao.service;
 
-import java.util.List;
-import java.util.Map;
-
+import com.taotao.pojo.ContentCategoryVO;
 import com.taotao.pojo.ProductMenuVO;
 import com.taotao.pojo.ProductVO;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -142,5 +143,11 @@ public interface IproductService {
 	 * <p>Description: 插入新的类目</p>
 	 */
 	void insertNewProductParam(Map<String, Object> paraMap);
+
+	/**
+	 * @param paraMap  根据parentId查询对应的层级子集
+	 * @return
+	 */
+	List<ContentCategoryVO> getContentCatList(Map<String, Object> paraMap);
 
 }
